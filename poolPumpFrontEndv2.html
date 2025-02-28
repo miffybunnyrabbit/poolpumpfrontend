@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pool Pump</title>
+  <style>
+    body {
+      background-color: #b6bfde;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      min-height: 100vh;
+    }
+    /* Logo in the top left corner */
+    .logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    /* Centered background image */
+    .bg-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: auto;
+    }
+    /* Top right button container for the connected button */
+    .topright-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+    .topright-container .button {
+      width: 140px;
+      cursor: pointer;
+    }
+    .topright-container .button img.default,
+    .topright-container .button img.hover {
+      width: 140px;
+    }
+    /* Help button container moved to the bottom right */
+    .help-container {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+    .help-container .button {
+      width: 100px;
+    }
+    .help-container .button img.default,
+    .help-container .button img.hover {
+      width: 100px;
+    }
+    /* Ensure each button positions its absolute children relative to itself */
+    .button {
+      position: relative;
+    }
+    /* Button hover effects for image swap */
+    .button img.default {
+      display: block;
+      transition: opacity 0.1s;
+    }
+    .button img.hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.1s;
+      display: block;
+    }
+    .button:hover img.default {
+      opacity: 0;
+    }
+    .button:hover img.hover {
+      opacity: 1;
+    }
+    /* Modal styles: modal does NOT cover the whole page */
+    .modal {
+      display: none; /* Hidden by default */
+      position: fixed;
+      z-index: 2000;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: transparent; /* No full-page overlay */
+    }
+    .modal-content {
+      position: relative;
+      width: 40vw;  /* Initially 40% of the viewport width */
+      height: auto;
+    }
+    /* Close button inside modal */
+    .close-button {
+      position: absolute;
+      top: 2%;
+      right: 1.5%;
+      width: 3%;
+      height: 4%;
+      cursor: pointer;
+      z-index: 2100;
+    }
+    /* Maximize button inside modal, positioned next to the close button */
+    .maximize-button {
+      position: absolute;
+      top: 2%;
+      right: 5.5%;
+      width: 3%;
+      height: 4%;
+      cursor: pointer;
+      z-index: 2100;
+    }
+    /* Minimize button inside modal, positioned to the left of the maximize button */
+    .minimize-button {
+      position: absolute;
+      top: 2%;
+      right: 9%;
+      width: 3%;
+      height: 4%;
+      cursor: pointer;
+      z-index: 2100;
+    }
+    /* Container for modal buttons at the bottom center */
+    .modal-buttons {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: 5%;
+      width: 90%; /* Container occupies 90% of modal width */
+    }
+    .modal-buttons .button {
+      width: 20%;
+    }
+    .modal-buttons .button img.default,
+    .modal-buttons .button img.hover {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Logo image at the top left -->
+  <img src="assets/logo.gif" alt="Logo" class="logo">
+  
+  <!-- Centered background image -->
+  <img src="assets/bg.gif" alt="Background Image" class="bg-image">
+  
+  <!-- Top Right Button Container for Connected Button (Connect to MetaMask) -->
+  <div class="topright-container">
+    <div class="button" id="connectButton">
+      <img src="assets/connectedOn.png" alt="Connected On" class="default">
+      <img src="assets/connectedOff.png" alt="Connected Off" class="hover">
+    </div>
+  </div>
+  
+  <!-- Help Button Container in the Bottom Right -->
+  <div class="help-container">
+    <div class="button" id="helpButton">
+      <img src="assets/helpOn.png" alt="Help On" class="default">
+      <img src="assets/helpOff.png" alt="Help Off" class="hover">
+    </div>
+  </div>
+  
+  <!-- Modal Popup for Help -->
+  <div id="popupModal" class="modal">
+    <div class="modal-content" id="modalContent">
+      <!-- Close button in the modal -->
+      <img src="assets/close.png" alt="Close" class="close-button" id="modalClose">
+      <!-- Minimize button in the modal -->
+      <img src="assets/minimise.png" alt="Minimize" class="minimize-button" id="modalMinimize">
+      <!-- Maximize button in the modal -->
+      <img src="assets/maximise.png" alt="Maximize" class="maximize-button" id="modalMaximize">
+      <!-- Popup image -->
+      <img src="assets/popup.png" alt="Popup" style="width: 100%; height: auto; display: block;">
+      <!-- Modal buttons container at the bottom center -->
+      <div class="modal-buttons">
+        <!-- Pool button -->
+        <div class="button" id="modalPoolButton">
+          <img src="assets/poolon.png" alt="Pool On" class="default">
+          <img src="assets/pooloff.png" alt="Pool Off" class="hover">
+        </div>
+        <!-- Pump button -->
+        <div class="button" id="modalPumpButton">
+          <img src="assets/pumpon.png" alt="Pump On" class="default">
+          <img src="assets/pumpoff.png" alt="Pump Off" class="hover">
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const connectButton = document.getElementById('connectButton');
+      const helpButton = document.getElementById('helpButton');
+      const popupModal = document.getElementById('popupModal');
+      const modalClose = document.getElementById('modalClose');
+      const modalMaximize = document.getElementById('modalMaximize');
+      const modalMinimize = document.getElementById('modalMinimize');
+      const modalContent = document.getElementById('modalContent');
+      
+      // When the connect button is clicked, attempt to connect to MetaMask.
+      connectButton.addEventListener('click', async () => {
+        if (typeof window.ethereum !== 'undefined') {
+          try {
+            const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+            console.log('Connected account:', accounts[0]);
+            alert('Connected to MetaMask: ' + accounts[0]);
+          } catch (error) {
+            console.error('User rejected the connection request.');
+            alert('Connection to MetaMask was rejected.');
+          }
+        } else {
+          alert('MetaMask not detected. Please install the MetaMask extension.');
+        }
+      });
+      
+      // Open modal and reset modal content width to 40vw
+      helpButton.addEventListener('click', () => {
+        modalContent.style.width = "40vw";
+        popupModal.style.display = 'block';
+      });
+      
+      // Function to close modal and reset width to 40vw
+      const closeModal = () => {
+        popupModal.style.display = 'none';
+        modalContent.style.width = "40vw";
+      };
+      
+      modalClose.addEventListener('click', closeModal);
+      
+      window.addEventListener('click', (event) => {
+        if (event.target === popupModal) {
+          closeModal();
+        }
+      });
+      
+      // When maximize button is clicked, set modal content width to 80vw
+      modalMaximize.addEventListener('click', () => {
+        modalContent.style.width = "80vw";
+      });
+      
+      // When minimize button is clicked, set modal content width back to 40vw
+      modalMinimize.addEventListener('click', () => {
+        modalContent.style.width = "40vw";
+      });
+    });
+  </script>
+</body>
+</html>
