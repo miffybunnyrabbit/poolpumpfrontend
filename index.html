@@ -4,8 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pool Pump</title>
-  <link href="https://fonts.googleapis.com/css2?family=press+start+2p&display=swap" rel="stylesheet">
+  <!-- Preconnect to improve font loading performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Load the 'Press Start 2P' font from Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   <style>
+    .press-start-2p-regular {
+      font-family: "Press Start 2P", system-ui;
+      font-weight: 400;
+      font-style: normal;
+    }
     /* Hide both by default */
     #mobileView, #desktopView {
       display: none;
@@ -22,13 +31,11 @@
         display: block;
       }
     }
-
     body {
         margin: 0;
         padding: 0;
         background-color: #b6bfde; /* Ensures the body has the desired background */
     }
-
     /* ============================= */
     /* Mobile Styles (adapted from poolPumpFrontEndMobile.html) */
     /* ============================= */
@@ -85,29 +92,28 @@
     #mobileView .modal-frame {
       position: relative;
       width: 90%;
-      max-width: 400px;        /* adjust as needed */
-      aspect-ratio: 3/4;        /* change if your image has a different ratio */
+      height: 80vh;
       background: url(assets/mobilepopup.png) no-repeat center center;
       background-size: contain;
     }
     #mobileView .close-button {
       position: absolute;
-      top: 1%;               /* fixed 20px from the top */
-      right: 4%;             /* fixed 20px from the right */
-      width: 8%;             /* adjust size as necessary */
+      top: 6.5%;
+      right: 3%;
+      width: 7%;
       cursor: pointer;
       z-index: 2100;
     }
     #mobileView .scrollable-content {
       position: absolute;
-      top: 70px;               /* fixed offset from the top */
-      bottom: 20px;            /* fixed offset from the bottom */
-      left: 20px;
-      right: 20px;
+      top: 15%;
+      bottom: 15%;
+      left: 10%;
+      right: 10%;
       overflow-y: auto;
       padding: 10px;
       background: transparent;
-      font-family: 'press start 2p', cursive;
+      font-family: 'Press Start 2P', cursive;
       color: #000;
     }
     #mobileView .pool-buttons {
@@ -265,17 +271,17 @@
       <div class="modal-frame">
         <img src="assets/close.png" alt="Close Button" class="close-button">
         <div class="scrollable-content">
-          <p>WHAT IS IT: We’re here to save your bags!</p>
-          <p>Pool any token - and pump it!</p>
+          <p class="press-start-2p-regular">WHAT IS IT: We’re here to save your bags!</p>
+          <p class="press-start-2p-regular">Pool any token - and pump it!</p>
           <br>
-          <p>HOW DOES IT WORK:</p>
-          <p>Step 1: Connect your wallet!</p>
-          <p>Step 2: Pool your token</p>
-          <p>You and your friends deposit into the pool. Once the pool reaches $420k then...</p>
-          <p>Step 3: Pump it!</p>
-          <p>borrow dai at 50% ltv, buy more token, then deposit to bring ltv down to 33%, giving users 1.5x spot leverage in one-click.</p>
+          <p class="press-start-2p-regular">HOW DOES IT WORK:</p>
+          <p class="press-start-2p-regular">Step 1: Connect your wallet!</p>
+          <p class="press-start-2p-regular">Step 2: Pool your token</p>
+          <p class="press-start-2p-regular">You and your friends deposit into the pool. Once the pool reaches $420k then...</p>
+          <p class="press-start-2p-regular">Step 3: Pump it!</p>
+          <p class="press-start-2p-regular">borrow dai at 50% ltv, buy more token, then deposit to bring ltv down to 33%, giving users 1.5x spot leverage in one-click.</p>
           <br>
-          <p>Coming soon!</p>
+          <p class="press-start-2p-regular">Coming soon!</p>
           <div class="pool-buttons">
             <img src="assets/poolon.png" alt="Pool Button" class="pool-button">
             <img src="assets/pumpon.png" alt="Pump Button" class="pump-button">
