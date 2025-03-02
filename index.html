@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pool Pump</title>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    /* Hide both by default */
+    #mobileView, #desktopView {
+      display: none;
+    }
+    /* Show mobile version for narrow viewports */
+    @media only screen and (max-width: 767px) {
+      #mobileView {
+        display: block;
+      }
+    }
+    /* Show desktop version for wider viewports */
+    @media only screen and (min-width: 768px) {
+      #desktopView {
+        display: block;
+      }
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        background-color: #b6bfde; /* Ensures the body has the desired background */
+    }
+
+    
+    /* ============================= */
+    /* Mobile Styles (adapted from poolPumpFrontEndMobile.html) */
+    /* ============================= */
+    #mobileView {
+        margin: 0;
+        padding: 0;
+        background-color: #b6bfde;
+        position: relative;
+        min-height: 100vh;  /* Makes sure the mobile container fills the viewport */
+    }
+    #mobileView .header {
+      position: relative;
+      margin-top: 20px;
+    }
+    #mobileView .header img.mobilebg {
+      display: block;
+      width: 100%;
+      height: auto;
+      margin-top: -80px;
+    }
+    #mobileView .logo {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+    }
+    #mobileView .help {
+      position: fixed;
+      bottom: 3%;
+      right: 10%;
+      width: 17%;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    #mobileView .connect {
+      position: fixed;
+      bottom: 3%;
+      right: 46%;
+      width: 45%;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    #mobileView .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.7);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    #mobileView .modal-frame {
+      position: relative;
+      width: 90%;
+      height: 80vh;
+      background: url(assets/mobilePopup.png) no-repeat center center;
+      background-size: contain;
+    }
+    #mobileView .close-button {
+      position: absolute;
+      top: 6.5%;
+      right: 3%;
+      width: 7%;
+      cursor: pointer;
+      z-index: 2100;
+    }
+    #mobileView .scrollable-content {
+      position: absolute;
+      top: 15%;
+      bottom: 15%;
+      left: 10%;
+      right: 10%;
+      overflow-y: auto;
+      padding: 10px;
+      background: transparent;
+      font-family: 'Press Start 2P', cursive;
+      color: #000;
+    }
+    #mobileView .pool-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 20px;
+    }
+    #mobileView .pool-buttons img {
+      width: 48%;
+      cursor: pointer;
+    }
+    
+    /* ============================= */
+    /* Desktop Styles (adapted from poolPumpFrontEndv2.html) */
+    /* ============================= */
+    #desktopView {
+      background-color: #b6bfde;
+      margin: 0;
+      padding: 0;
+      position: relative;
+      min-height: 100vh;
+    }
+    #desktopView .logo {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+    }
+    #desktopView .bg-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 80%;
+      height: auto;
+    }
+    #desktopView .topright-container {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      z-index: 1000;
+    }
+    #desktopView .topright-container .button {
+      width: 140px;
+      cursor: pointer;
+    }
+    #desktopView .topright-container .button img.default,
+    #desktopView .topright-container .button img.hover {
+      width: 140px;
+    }
+    #desktopView .help-container {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+    }
+    #desktopView .help-container .button {
+      width: 100px;
+    }
+    #desktopView .help-container .button img.default,
+    #desktopView .help-container .button img.hover {
+      width: 100px;
+    }
+    #desktopView .button {
+      position: relative;
+    }
+    #desktopView .button img.default {
+      display: block;
+      transition: opacity 0.1s;
+    }
+    #desktopView .button img.hover {
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.1s;
+      display: block;
+    }
+    #desktopView .button:hover img.default {
+      opacity: 0;
+    }
+    #desktopView .button:hover img.hover {
+      opacity: 1;
+    }
+    #desktopView .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      background-color: transparent;
+    }
+    #desktopView .modal-content {
+      position: relative;
+      width: 40vw;
+      height: auto;
+    }
+    #desktopView .close-button {
+      position: absolute;
+      top: 2%;
+      right: 1.5%;
+      width: 3%;
+      height: 4%;
+      cursor: pointer;
+      z-index: 2100;
+    }
+    #desktopView .maximize-button {
+      position: absolute;
+      top: 2%;
+      right: 5.5%;
+      width: 3%;
+      height: 4%;
+      cursor: pointer;
+      z-index: 2100;
+    }
+    #desktopView .minimize-button {
+      position: absolute;
+      top: 2%;
+      right: 9%;
+      width: 3%;
+      height: 4%;
+      cursor: pointer;
+      z-index: 2100;
+    }
+    #desktopView .modal-buttons {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      justify-content: center;
+      gap: 5%;
+      width: 90%;
+    }
+    #desktopView .modal-buttons .button {
+      width: 20%;
+    }
+    #desktopView .modal-buttons .button img.default,
+    #desktopView .modal-buttons .button img.hover {
+      width: 100%;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <!-- Mobile Version -->
+  <div id="mobileView">
+    <div class="header">
+      <img src="assets/mobilebg.gif" alt="Mobile Background" class="mobilebg">
+      <img src="assets/logo.gif" alt="Logo" class="logo">
+    </div>
+    <img src="assets/connectedon.png" alt="Connect Button" class="connect">
+    <img src="assets/helpOn.png" alt="Help Button" class="help">
+  
+    <div class="modal" id="modal">
+      <div class="modal-frame">
+        <img src="assets/close.png" alt="Close Button" class="close-button">
+        <div class="scrollable-content">
+          <p>WHAT IS IT: We’re here to save your bags!</p>
+          <p>Pool any Token - and pump it!</p>
+          <br>
+          <p>HOW DOES IT WORK:</p>
+          <p>Step 1: Connect your wallet!</p>
+          <p>Step 2: Pool your token</p>
+          <p>You and your friends deposit into the pool. Once the pool reaches $420k then...</p>
+          <p>Step 3: Pump it!</p>
+          <p>borrow DAI at 50% LTV, buy more TOKEN, then deposit to bring LTV down to 33%, giving users 1.5x spot leverage in one-click.</p>
+          <br>
+          <p>Coming soon!</p>
+          <div class="pool-buttons">
+            <img src="assets/poolon.png" alt="Pool Button" class="pool-button">
+            <img src="assets/pumpon.png" alt="Pump Button" class="pump-button">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      // Mobile functionality: button image swaps, modal handling, and MetaMask connection
+      (function() {
+        var helpButton = document.querySelector('#mobileView .help');
+        var connectButton = document.querySelector('#mobileView .connect');
+        var modal = document.getElementById('modal');
+  
+        helpButton.addEventListener('mousedown', function() {
+          helpButton.src = "assets/helpOff.png";
+        });
+        helpButton.addEventListener('mouseup', function() {
+          helpButton.src = "assets/helpOn.png";
+        });
+        helpButton.addEventListener('touchstart', function() {
+          helpButton.src = "assets/helpOff.png";
+        });
+        helpButton.addEventListener('touchend', function() {
+          helpButton.src = "assets/helpOn.png";
+        });
+  
+        connectButton.addEventListener('mousedown', function() {
+          connectButton.src = "assets/connectedoff.png";
+        });
+        connectButton.addEventListener('mouseup', function() {
+          connectButton.src = "assets/connectedon.png";
+        });
+        connectButton.addEventListener('touchstart', function() {
+          connectButton.src = "assets/connectedoff.png";
+        });
+        connectButton.addEventListener('touchend', function() {
+          connectButton.src = "assets/connectedon.png";
+        });
+  
+        var poolButton = document.querySelector('#mobileView .pool-button');
+        poolButton.addEventListener('mousedown', function() {
+          poolButton.src = "assets/pooloff.png";
+        });
+        poolButton.addEventListener('mouseup', function() {
+          poolButton.src = "assets/poolon.png";
+        });
+        poolButton.addEventListener('touchstart', function() {
+          poolButton.src = "assets/pooloff.png";
+        });
+        poolButton.addEventListener('touchend', function() {
+          poolButton.src = "assets/poolon.png";
+        });
+  
+        var pumpButton = document.querySelector('#mobileView .pump-button');
+        pumpButton.addEventListener('mousedown', function() {
+          pumpButton.src = "assets/pumpoff.png";
+        });
+        pumpButton.addEventListener('mouseup', function() {
+          pumpButton.src = "assets/pumpon.png";
+        });
+        pumpButton.addEventListener('touchstart', function() {
+          pumpButton.src = "assets/pumpoff.png";
+        });
+        pumpButton.addEventListener('touchend', function() {
+          pumpButton.src = "assets/pumpon.png";
+        });
+  
+        helpButton.addEventListener('click', function() {
+          modal.style.display = "flex";
+        });
+  
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = "none";
+          }
+        });
+  
+        var closeButton = document.querySelector('#mobileView .close-button');
+        closeButton.addEventListener('click', function(e) {
+          modal.style.display = "none";
+          e.stopPropagation();
+        });
+  
+        connectButton.addEventListener('click', function(e) {
+          if (typeof window.ethereum !== 'undefined') {
+            window.ethereum.request({ method: 'eth_requestAccounts' })
+              .then(function(accounts) {
+                console.log("Connected account:", accounts[0]);
+              })
+              .catch(function(error) {
+                console.error("Error connecting to MetaMask:", error);
+              });
+          } else {
+            alert("MetaMask not found. Please install MetaMask on your mobile device.");
+          }
+        });
+      })();
+    </script>
+  </div>
+  
+  <!-- Desktop Version -->
+  <div id="desktopView">
+    <img src="assets/logo.gif" alt="Logo" class="logo">
+    <img src="assets/bg.gif" alt="Background Image" class="bg-image">
+  
+    <div class="topright-container">
+      <div class="button" id="connectButton">
+        <img src="assets/connectedOn.png" alt="Connected On" class="default">
+        <img src="assets/connectedOff.png" alt="Connected Off" class="hover">
+      </div>
+    </div>
+  
+    <div class="help-container">
+      <div class="button" id="helpButton">
+        <img src="assets/helpOn.png" alt="Help On" class="default">
+        <img src="assets/helpOff.png" alt="Help Off" class="hover">
+      </div>
+    </div>
+  
+    <div id="popupModal" class="modal">
+      <div class="modal-content" id="modalContent">
+        <img src="assets/close.png" alt="Close" class="close-button" id="modalClose">
+        <img src="assets/minimise.png" alt="Minimize" class="minimize-button" id="modalMinimize">
+        <img src="assets/maximise.png" alt="Maximize" class="maximize-button" id="modalMaximize">
+        <img src="assets/popup.png" alt="Popup" style="width: 100%; height: auto; display: block;">
+        <div class="modal-buttons">
+          <div class="button" id="modalPoolButton">
+            <img src="assets/poolon.png" alt="Pool On" class="default">
+            <img src="assets/pooloff.png" alt="Pool Off" class="hover">
+          </div>
+          <div class="button" id="modalPumpButton">
+            <img src="assets/pumpon.png" alt="Pump On" class="default">
+            <img src="assets/pumpoff.png" alt="Pump Off" class="hover">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const connectButton = document.getElementById('connectButton');
+        const helpButton = document.getElementById('helpButton');
+        const popupModal = document.getElementById('popupModal');
+        const modalClose = document.getElementById('modalClose');
+        const modalMaximize = document.getElementById('modalMaximize');
+        const modalMinimize = document.getElementById('modalMinimize');
+        const modalContent = document.getElementById('modalContent');
+  
+        connectButton.addEventListener('click', async () => {
+          if (typeof window.ethereum !== 'undefined') {
+            try {
+              const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+              console.log('Connected account:', accounts[0]);
+              alert('Connected to MetaMask: ' + accounts[0]);
+            } catch (error) {
+              console.error('User rejected the connection request.');
+              alert('Connection to MetaMask was rejected.');
+            }
+          } else {
+            alert('MetaMask not detected. Please install the MetaMask extension.');
+          }
+        });
+  
+        helpButton.addEventListener('click', () => {
+          modalContent.style.width = "40vw";
+          popupModal.style.display = 'block';
+        });
+  
+        const closeModal = () => {
+          popupModal.style.display = 'none';
+          modalContent.style.width = "40vw";
+        };
+  
+        modalClose.addEventListener('click', closeModal);
+  
+        window.addEventListener('click', (event) => {
+          if (event.target === popupModal) {
+            closeModal();
+          }
+        });
+  
+        modalMaximize.addEventListener('click', () => {
+          modalContent.style.width = "80vw";
+        });
+  
+        modalMinimize.addEventListener('click', () => {
+          modalContent.style.width = "40vw";
+        });
+      });
+    </script>
+  </div>
+</body>
+</html>
